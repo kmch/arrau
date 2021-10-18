@@ -1,4 +1,6 @@
 """
+I/O API.
+
 Handling input/output efficiently
 and conveniently.
 """

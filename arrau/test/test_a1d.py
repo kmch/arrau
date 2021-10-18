@@ -18,3 +18,6 @@ class TestArr1d(TestCase):
   def test_info(self):
     a = Arr1d(np.zeros(5))
     a.info()
+  def test_plot(self):
+    a = Arr1d(np.zeros(5), extent=[[-1,1]])
+    a.plot()

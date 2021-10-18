@@ -7,6 +7,13 @@ class Arr2dPlotter:
   Mix-in.
   """
   def plot(self, mode='imshow', **kwargs):
+    """
+    Parameters
+    ----------
+    mode : str
+        'imshow' / 'contour' / 'contourf' / 'im+cr' / 'shade'
+        Default: 'imshow'.
+    """
     kwargs = self._get_formatting_for_plot(**kwargs)
     # framework
     if mode == 'imshow' or mode == 'im':

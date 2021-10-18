@@ -1,10 +1,11 @@
 import numpy as np
-import matplotlib.pyplot as plt # FIXME
+
 
 from arrau.a2d import Arr2d
+from arrau.api.plot import PlotArr3d, PlotArr3dSlice
 from arrau.generic import Arr, ArrAxis, ArrSlices
 
-class Arr3d(Arr):
+class Arr3d(Arr,PlotArr3d):
   """
   3d array.
   """
@@ -29,19 +30,7 @@ class Arr3dSlices(ArrSlices):
       yvalues = []
       zvalues = []
       self.values = [xvalues, yvalues, zvalues]
-class Arr3dSlicePlotter:
-  def plot(self, **kwargs):
-    # Allow to overwrite the default to prevent multiple flipping
-    # when plotting multi-layer data
-    kwargs['vertical_axis_up'] = kwargs.get('vertical_axis_up', \
-      self.vertical_axis_up)
-    self.arr.plot(**kwargs)
-  def plot_slice_lines(self):
-    vlines = self._get_slice_lines(is_vertical=True)
-    hlines = self._get_slice_lines(is_vertical=False)
-    for line in vlines + hlines:
-      plt.plot(line.abscissas, line.ordinates, 'k--')
-class Arr3dSlice(Arr3dSlicePlotter):
+class Arr3dSlice(PlotArr3dSlice):
   def __init__(self, value, axis, arr, all_slices):
     """
     Parameters

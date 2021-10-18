@@ -1,9 +1,10 @@
+import numpy as np
+from arrau.api.plot import PlotArr1d
 from arrau.generic import Arr, ArrAxis
-from plotea.mpl2d import plot_array_1d
 
-class Arr1d(Arr):
-  def plot(self, *args, **kwargs):
-    plot_array_1d(self.arr, *args, **kwargs)
+
+
+class Arr1d(Arr,PlotArr1d):
   # -----------------------------------------------------------------------------  
   def _init_slices(self):
     self.slices = None  

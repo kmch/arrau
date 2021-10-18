@@ -3,7 +3,7 @@
 Processing 1-3d `NumPy` arrays for scientific visualisation.
 
 ## Features
-- endowing arrays with spatial metadata,
+- adding spatial metadata to `numpy` arrays,
 - slicing at coordinates in physical units,
 - extracting subarrays of the same dimensionality,
 - finding isosurfaces and other interfaces,

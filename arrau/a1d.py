@@ -1,10 +1,10 @@
 import numpy as np
-from arrau.api.plot import PlotArr1d
+from arrau.api.plot import Arr1dPlot
 from arrau.generic import Arr, ArrAxis
 
 
 
-class Arr1d(Arr,PlotArr1d):
+class Arr1d(Arr,Arr1dPlot):
   # -----------------------------------------------------------------------------  
   def _init_slices(self):
     self.slices = None  

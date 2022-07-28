@@ -5,6 +5,8 @@ and auxiliary objects.
 from abc import ABC, abstractmethod
 import numpy as np
 
+from arrau.modify import modify_array
+
 class Arr(ABC):
   """
   Abstract 1-3d array.
@@ -57,6 +59,10 @@ class Arr(ABC):
     print('grid cell-size (dx): {} [m]'.format(self.dx))    
     print('grid extent: {} [m]'.format(self.extent))
     print('value min: {}, max: {}'.format(np.min(self.arr), np.max(self.arr)))
+  def modify(self, **kwargs):
+    self.arr = modify_array(self.arr, **kwargs)
+  def normalise(self, norm='max'):
+    self.arr = modify_array(self.arr, norm=norm)  
   def read(self, overwrite=True, **kwargs):
     """
   
@@ -143,6 +149,11 @@ class Arr(ABC):
       origin = ax.extent[0]
       dx = ax.dx
       index = CoordTransform().metre2index(value, origin, dx)
+    elif unit == 'kilometre' or unit == 'km':
+      origin = ax.extent[0]
+      dx = ax.dx
+      # use metre2index as nothing changes (origin and dx are in km)
+      index = CoordTransform().metre2index(value, origin, dx)    
     else:
       raise ValueError('Unknown unit: %s.' % unit)    
     return index      
@@ -358,6 +369,9 @@ class CoordTransform(ABC):
   def index2node(self, index):
     return index + 1
   # -----------------------------------------------------------------------------  
+  # def kilometre2index(self, m, origin, dx, **kwargs):
+  #   # this 
+  #   return self.metre2index(m, origin, dx, **kwargs)
   def metre2index(self, m, origin, dx, **kwargs):
     """
     Convert metres to array index. If the result

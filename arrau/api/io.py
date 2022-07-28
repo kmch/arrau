@@ -8,7 +8,45 @@ from abc import ABC, abstractmethod
 from autologging import logged, traced
 import numpy as np
 
+def extent2str(extent):
+  """
+  Convert `extent` to string which 
+  can be used e.g. to create a descriptive
+  name for a file storing an array.
 
+  Paramaters
+  ----------
+  extent : list / array
+      List of the form:
+        [[x1,x2], [y1,y2], ...]
+      Should work in 1-3d.
+  """
+  if len(extent) == 3:
+    [[x1, x2], [y1, y2], [z1, z2]] = extent 
+    x1, x2, y1, y2, z1, z2 = [int(i) for i in [x1, x2, y1, y2, z1, z2]]
+    s = 'x{x1}_{x2}_y{y1}_{y2}_z{z1}_{z2}'.format(x1=x1,x2=x2,y1=y1,y2=y2,z1=z1,z2=z2)
+  elif len(extent) == 2:
+    [[x1, x2], [y1, y2]] = extent 
+    x1, x2, y1, y2 = [int(i) for i in [x1, x2, y1, y2]]
+    s = 'x{x1}_{x2}_y{y1}_{y2}'.format(x1=x1,x2=x2,y1=y1,y2=y2)
+  elif len(extent) == 1:
+    [[x1, x2]] = extent 
+    x1, x2 = [int(i) for i in [x1, x2]]
+    s = 'x{x1}_{x2}'.format(x1=x1,x2=x2)    
+  return s
+def shape2str(shape):
+  """
+  See `extent2str`, now it converts 
+  `shape` instead of `extent`.
+  """
+  if len(shape) == 3:
+    s = '%sx%sx%s' % shape
+  elif len(shape) == 2:
+    s = '%sx%s' % shape
+  elif len(shape) == 1:
+    s = '%s' % shape
+  s = 'shape%s' % s
+  return s  
 @logged
 class File(ABC):
   def __init__(self, name, path, **kwargs):

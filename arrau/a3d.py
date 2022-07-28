@@ -1,11 +1,10 @@
 import numpy as np
 
-
 from arrau.a2d import Arr2d
-from arrau.api.plot import PlotArr3d, PlotArr3dSlice
+from arrau.api.plot import Arr3dPlot, Arr3dSlicePlot
 from arrau.generic import Arr, ArrAxis, ArrSlices
 
-class Arr3d(Arr,PlotArr3d):
+class Arr3d(Arr,Arr3dPlot):
   """
   3d array.
   """
@@ -30,7 +29,7 @@ class Arr3dSlices(ArrSlices):
       yvalues = []
       zvalues = []
       self.values = [xvalues, yvalues, zvalues]
-class Arr3dSlice(PlotArr3dSlice):
+class Arr3dSlice(Arr3dSlicePlot):
   def __init__(self, value, axis, arr, all_slices):
     """
     Parameters
@@ -76,8 +75,8 @@ class Arr3dSliceX(Arr3dSlice):
   YZ plane.
   """
   def _set_axes_labels(self):
-    self.arr.axes[0].label = 'y, m'
-    self.arr.axes[1].label = 'z, m'   
+    self.arr.axes[0].label = 'Y (m)'
+    self.arr.axes[1].label = 'Z (m)'   
   def _set_vertical_axis_up(self):
     self.vertical_axis_up = False  
   def _pick_slice_values(self):
@@ -88,8 +87,8 @@ class Arr3dSliceY(Arr3dSlice):
   XZ
   """
   def _set_axes_labels(self):
-    self.arr.axes[0].label = 'x, m'
-    self.arr.axes[1].label = 'z, m'  
+    self.arr.axes[0].label = 'X (m)'
+    self.arr.axes[1].label = 'Z (m)'  
   def _set_vertical_axis_up(self):
     self.vertical_axis_up = False  
   def _pick_slice_values(self):
@@ -100,8 +99,8 @@ class Arr3dSliceZ(Arr3dSlice):
   XY plane
   """
   def _set_axes_labels(self):
-    self.arr.axes[0].label = 'x, m'
-    self.arr.axes[1].label = 'y, m'
+    self.arr.axes[0].label = 'X (m)'
+    self.arr.axes[1].label = 'Y (m)'
   def _set_vertical_axis_up(self):
     self.vertical_axis_up = True
   def _pick_slice_values(self):

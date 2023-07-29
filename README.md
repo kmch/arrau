@@ -1,4 +1,4 @@
-# :game_die: arr:a:u
+# arr:game_die:u
 
 Processing 1-3D `NumPy` arrays for scientific visualisation.
 

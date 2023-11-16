@@ -4,7 +4,6 @@ and auxiliary objects.
 """
 from abc import ABC, abstractmethod
 import numpy as np
-
 from arrau.modify import modify_array
 
 class Arr(ABC):

@@ -1,7 +1,7 @@
 import numpy as np
 
 from arrau.a2d import Arr2d
-from arrau.api.plot import Arr3dPlot, Arr3dSlicePlot
+from arrau.plot import Arr3dPlot, Arr3dSlicePlot
 from arrau.generic import Arr, ArrAxis, ArrSlices
 
 class Arr3d(Arr,Arr3dPlot):
@@ -110,3 +110,75 @@ class Arr3dSliceLine:
   def __init__(self, abscissas, ordinates):
     self.abscissas = abscissas
     self.ordinates = ordinates
+
+class A3d(Arr3d):
+  """
+  Thin wrapper around Arr3d 
+  to test new features before 
+  modifying it.
+
+  Parameters
+  ----------
+  Arr3d : class
+      3d array.
+  """
+  def plot_slice(self, coord, unit='n', axis='y', **kwargs):
+    """
+    Facilitate different units.
+
+    Parameters
+    ----------
+    coord : float
+        Value of a coordinate (axis specified below)
+    unit : str, optional
+        Unit of coord can be nodes or metres, by default 'n'
+    axis : str, optional
+        Axis along which coordinate is measured, by default 'y'
+
+    Returns
+    -------
+    axis
+        Axis of the plot.
+
+    Raises
+    ------
+    IndexError
+        If exceeds the axis size.
+    """
+    kwargs['slice_at'] = axis
+    axis_id = dict(x=0, y=1, z=2)[axis]
+    if unit == 'n':
+      kwargs['node'] = coord
+    elif unit == 'm':
+      i = self._metre_2_nearest_index(coord, axis_id)
+      if (i < 0) or (i >= self.shape[axis_id]):
+        raise IndexError('Incorrect array index: %s' %i)
+      kwargs['title'] = '%s=%s m' % (axis, coord) 
+      kwargs['node'] = i 
+    else:
+      NIErr()
+    return super().plot_slice(**kwargs)
+
+  # -----------------------------------------------------------------------------
+
+  def slice_old(self, slice_at='y', node=0, widgets=False, **kwargs):
+    """
+    """
+    di = {'x': 0, 'y': 1, 'z': 2} # TRANSLATE slice_at INTO AXIS NO.
+    axis = di[slice_at]
+    A = Arr2d(np.take(self, indices=node, axis=axis))
+
+    assert len(self.extent) == 3
+    # extent2d = np.ravel([el for i, el in enumerate(self.extent) if i != di[slice_at]])
+    extent2d = np.array([el for i, el in enumerate(self.extent) if i != di[slice_at]])
+
+    # if axis != 2:
+    self.__log.debug('Setting extent2d so that no vertical-axis flipping is needed.')
+    self.__log.debug('NOW ALSO FOR zslice (NOT TESTED BUT SEEMS TO HAVE FIXED THE BUG)')
+    # extent2d[-2: ] = [extent2d[-1], extent2d[-2]]
+    extent2d[-1] = extent2d[-1][::-1]
+    self.__log.debug('extent2d: ' + str(extent2d))
+
+    A.extent = extent2d
+
+    return A

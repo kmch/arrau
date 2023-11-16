@@ -1,11 +1,9 @@
 import numpy as np
-from arrau.api.plot import Arr1dPlot
+from arrau.plot import Arr1dPlot
 from arrau.generic import Arr, ArrAxis
 
 
-
 class Arr1d(Arr,Arr1dPlot):
-  # -----------------------------------------------------------------------------  
   def _init_slices(self):
     self.slices = None  
   def _set_axes(self, extent=[None], **kwargs):

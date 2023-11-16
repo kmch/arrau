@@ -4,9 +4,9 @@ the `plotea` package.
 """
 # import matplotlib.pyplot as plt # for interlace only
 import numpy as np
-from plotea.ipyvolume import Ipv
-from plotea.mpl2d import Contour, Contourf, Imshow, Shade, Wiggle,\
-  PltPlot, figax
+# from plotea.ipyvolume import Ipv
+from plotea.mpl2d import Imshow, Shade, Wiggle,\
+  PltPlot, figax # np.ones(drainage.mg.shape)
 
 class Arr1dPlot:
   def plot(self, mode='plt', **kwargs):

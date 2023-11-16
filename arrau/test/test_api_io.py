@@ -1,6 +1,6 @@
 import numpy as np
 from unittest import TestCase
-from arrau.api.io import extent2str, shape2str
+from arrau.io import extent2str, shape2str
 
 class TestFunctions(TestCase):
   def test_extent2str(self):

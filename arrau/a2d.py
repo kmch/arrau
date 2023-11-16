@@ -1,5 +1,5 @@
 from arrau.a1d import Arr1d
-from arrau.api.plot import Arr2dPlot, Arr2dSlicePlot
+from arrau.plot import Arr2dPlot, Arr2dSlicePlot
 from arrau.generic import Arr, ArrAxis, ArrSlices
 from arrau.modify import interlace_arrays
 
@@ -66,4 +66,25 @@ class Surf(Arr2d):
   def _set_axes_labels(self):
     self.axes[0].label = 'x, m'
     self.axes[1].label = 'y, m'
-    
+class A2d(Arr2d):
+  def _metre_2_nearest_index(self, m, axis, **kwargs):
+    origin = self.extent[axis][0]
+    i = (m - origin) / self.dx[axis]
+    if not i.is_integer():
+      print('Warning. Non-integer index. Taking its floor')
+      i = np.floor(i)
+    return int(i)        
+  def plot_slice(self, coord, unit='n', axis='y', **kwargs):
+    kwargs['slice_at'] = axis
+    axis_id = dict(x=0, y=1, z=2)[axis]
+    if unit == 'n':
+      kwargs['node'] = coord
+    elif unit == 'm':
+      i = self._metre_2_nearest_index(coord, axis_id)
+      if (i < 0) or (i >= self.shape[axis_id]):
+        raise IndexError('Incorrect array index: %s' %i)
+      kwargs['title'] = '%s=%s m' % (axis, coord) 
+      kwargs['node'] = i 
+    else:
+      NIErr()
+    return super().plot_slice(**kwargs)
